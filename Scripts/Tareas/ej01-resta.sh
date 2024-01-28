@@ -16,5 +16,5 @@
 #
 ########################################################################
 
-resultado=$(($1+$2))
-echo "El resultado de sumar $1 y $2 es $resultado"
+resultado=$(($1-$2))
+echo "El resultado de restar $1 y $2 es $resultado"
