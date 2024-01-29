@@ -3,16 +3,13 @@
 #
 #   Autor: Miguel Ángel García Rodríguez <miguelangel2e2005@gmail.com>
 #
-#   Objetivo: Hacer pruebas con scripts. 
+#   Objetivo: Realizar resta. 
 #
 #   Entrada: Números
 #
-#   Salida: Mostrar suma.
+#   Salida: Mostrar resta.
 #
 #   Versión: 1
-#   
-#   Historial:
-#   2023-12-18
 #
 ########################################################################
 

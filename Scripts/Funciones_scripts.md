@@ -20,7 +20,7 @@
 
 -x :  comprueba los permisos de acceso/ejecución.
 
-[ ! ... ] : pregunta lo contrario.
+[ ! ... ] : pregunej01-resta.shta lo contrario.
 
 && : equivalente a "and".
 
@@ -32,3 +32,7 @@
 
 <<< : Solo introduces un input.
 
+echo "Fue ejecutado por el usuario $USER."
+echo "Ha indicado $# argumentos."
+echo "los argumentos indicados son: $@."
+echo "los argumentos indicados son: $*."

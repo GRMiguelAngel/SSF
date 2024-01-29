@@ -16,10 +16,6 @@
 #
 ########################################################################
 
-echo "Fue ejecutado por el usuario $USER."
-echo "Ha indicado $# argumentos."
-echo "los argumentos indicados son: $@."
-echo "los argumentos indicados son: $*."
 
 day=$1
 month=$2
