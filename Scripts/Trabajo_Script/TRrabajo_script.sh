@@ -32,7 +32,10 @@ if [ -e "$package" ]; then
         ;;
 
         No|NO|no|0)
+        ;;
 
+    esac
+fi
 # 1. Si package no está instalado:
 #   a.  Si package SÍ existe: mostrar información y dar la opción de instalar.
 #   b.  Si package NO existe: se le indicará al usuario que no hay ningún paquete que se llame como ha indicado, 
