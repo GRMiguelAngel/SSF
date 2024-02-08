@@ -24,7 +24,15 @@ done
 sudo apt-get update
 
 if [ -e "$package" ]; then
-    apt-get search
+    apt-cache search $package
+    read -p "¿Quiere instalar este programa? " answer
+    case "$answer" in
+
+        Yes|yes|YES|Sí|SI|Si|si|1) apt-get isntall $package
+        ;;
+
+        No|NO|no|0)
+
 # 1. Si package no está instalado:
 #   a.  Si package SÍ existe: mostrar información y dar la opción de instalar.
 #   b.  Si package NO existe: se le indicará al usuario que no hay ningún paquete que se llame como ha indicado, 
