@@ -28,6 +28,10 @@ if [ -e "$elemento" ]; then
     else
         echo "El elemento $elemento no tiene permisos de acceso/ejecución."
     fi
+    if [ -s "$ruta" ]; then
+        echo "$ruta no está vacío."
+    else
+        echo "$ruta está vacío."
 else
     echo "El elemento $elemento NO EXISTE."
 fi
