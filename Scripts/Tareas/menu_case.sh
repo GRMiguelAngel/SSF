@@ -9,17 +9,17 @@ echo "usuario: Usuario actual."
 echo "maquina: Nombre de la máquina."
 echo "usuarios: Número de usuarios del sistema."
 echo "espacio: Espacio usado en todos los directorios."
-echo "libre: Memoria libre" 
-echo "salir: Salir del sistema"  
-echo -p "Introduzca su opción: " opcion
+echo "directorios: Número de directorios en el directorio raíz." 
+echo "salir: Salir del sistema."  
+read -p "Introduzca su opción: " opcion
 
 case "$opcion" in
 
-    porlibre|1) porcentaje_libre=$(df -h | cut -f5)
+    porlibre|1) porcentaje_libre=$(df -h)
     echo "El porcentaje de disco libre es $porcentaje_libre"
     ;;
 
-    tamlibre|2)tamaño_libre=$(df -h | cut -f3)
+    tamlibre|2)tamaño_libre=$(df -h)
     echo "El espacio del disco libre es $tamaño_libre"
     ;;
 
@@ -38,12 +38,17 @@ case "$opcion" in
     ;;
 
     espacio|6)
-    espacio_usado=$(du -sh /home/* | cut -f1) 
+    espacio_usado=$(sudo du -sh /home/* | cut -f1) 
     echo "El espacio usado de directorios personales es $espacio_usado"
     ;;
 
-    permisos|7)
-    datos_permisos=$(ls -ld ~)
+    directorios|7)
+    directorios=$(ls -R / 2> /dev/null | wc -l)
+    echo "Hay $directorios directorios en el directorio raíz."
+    ;;
+
+    salir|8)
+    ;;
 
     *) echo "ERROR: '$opcion' no es una opción válida."
     ;;
