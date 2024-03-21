@@ -1,5 +1,8 @@
 #!/bin/bash
+
 ################################################################
+#
+#   Nombre: script-gestion-software.sh
 #
 #   Autores: Jesús Lugo y Miguel Angel
 #   
@@ -14,42 +17,75 @@
 ################################################################
 
 clear
+
 package=$1
 
 while [ -z "$package" ]; do
     echo "ERROR: Debe ingresar el nombre de un paquete de software."
     read -p "Ingrese el nombre del paquete --> " package
 done
+echo "-=- Sincronización de repositorio -=-"
+sudo apt-get update > /dev/null 2>&1
 
-sudo apt-get update
+clear
 
-dpkg -s $package
+dpkg -s "$package" > /dev/null 2>&1
 
-if [ "$?" -eq 1 ]; then
+if [ "$?" -eq 0 ]; then
+    echo "El paquete $package está instalado. ¿Qué desea realizar?"
+    echo " -=----------=- MENÚ -=----------=- "
+    select option in "Mostrar versión" "Reinstalar" "Actualizar" "Eliminar (Guardar configuración)" "Eliminar totalmente" "Salir"; do
+        case $option in
 
+            "Mostrar versión") echo "La versión del paquete $package es $(apt version $package)" 
+            ;;
 
-# if [ -e "$package" ]; then
-#     apt-cache search $package
-#     read -p "¿Quiere instalar este programa? " answer
-#     case "$answer" in
+            "Reinstalar") sudo apt-get reinstall $package
+            ;;
 
-#         Yes|yes|YES|Sí|SI|Si|si|1) apt-get isntall $package
-#         ;;
+            "Actualizar") sudo apt-get install $package
+            ;;
 
-#         No|NO|no|0)
-#         ;;
+            "Eliminar (Guardar configuración)") sudo apt-get remove $package
+            ;;
 
-#     esac
-# fi
-# 1. Si package no está instalado:
-#   a.  Si package SÍ existe: mostrar información y dar la opción de instalar.
-#   b.  Si package NO existe: se le indicará al usuario que no hay ningún paquete que se llame como ha indicado, 
-#       y se le mostrará el resultado de la búsqueda que se obtiene con el argumento que ha dado el usuario (puede que la búsqueda no dé ningún paquete, 
-#       o puede que la búsqueda muestre paquetes que se llaman de forma similar. En cualquier caso, se mostrará el resultado).
+            "Eliminar totalmente") sudo apt-get purge $package
+            ;;
 
-# 2. Si package está instalado, mostrar un menú de:
-#    - Mostrar su versión
-#    - Reinstalarlo
-#    - Actualizarlo (solo este paquete, si fuera actualizable)
-#    - Eliminarlo (guardando la configuración)
-#    - Eliminarlo totalmente
+            "Salir") exit 0
+
+        esac
+    done
+
+elif [ "$?" -eq 1 ]; then
+
+    apt-cache show "$package" > /dev/null 2> /dev/null
+
+    code=$?
+
+    if [ "$code" -eq 0 ]; then
+
+        echo "El paquete $package no está instalado."
+        read -p "¿Quiere instalar este programa? (si/no) " answer
+        case "$answer" in
+
+            yes|si|s|y|1) sudo apt-get install $package
+            ;;
+
+            n|no|0) echo "Hasta la vista bebé. <3"
+            exit 0
+            ;;
+
+        esac
+
+    elif [ "$code" -eq 100 ]; then
+
+        echo "No existe ningún paquete llamado $package."
+        echo "Cargando lista de paquetes similares..."
+        sleep 5
+        echo " -=- Lista de paquetes similares (Si no aparecen es porque no existen paquetes similares :D) -=- "
+        apt-cache search "$package"
+
+    fi
+
+fi
